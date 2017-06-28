@@ -10,8 +10,10 @@ import java.util.List;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import com.zouensi.domain.Product;
+import com.zouensi.domain.ProductLimit;
 
 public class ProductDao {
 	private QueryRunner qr = new QueryRunner(getDs());
@@ -142,5 +144,28 @@ public class ProductDao {
 			sql.append("AND");
 		}
 		return true;
+	}
+
+	public ProductLimit findLimit(String pageNumber) throws SQLException {
+		int intPageNumber = Integer.valueOf(pageNumber);//获取当前页数
+		long totalCount = getCount();//获取总记录数
+		int pageSize = 3;//每页显示三条
+		int totalPage = (int) (totalCount%pageSize==0?totalCount/pageSize:totalCount/pageSize+1);//总页数
+		String sql = "select * from product  limit ?,?";
+		List<Product> listProduct = qr.query(sql, new BeanListHandler<>(Product.class),(intPageNumber-1)*pageSize,pageSize);
+		ProductLimit proLimit = new ProductLimit(totalCount,intPageNumber,totalPage,pageSize,listProduct);
+		return proLimit;
+		
+		
+	}
+	/**
+	 * 获取项目的总记录数
+	 * @return
+	 * @throws SQLException
+	 */
+	public long getCount() throws SQLException {
+		String sql = "select count(*) from product";
+		Long count = (Long)qr.query(sql, new  ScalarHandler());
+		return count;
 	}
 }

@@ -4,18 +4,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-
-
-
-
-
-
-
-
 import org.apache.commons.dbutils.DbUtils;
 
 import com.zouensi.dao.ProductDao;
 import com.zouensi.domain.Product;
+import com.zouensi.domain.ProductLimit;
 import com.zouensi.utils.DataSourcesUtils;
 
 public class ProductService {
@@ -112,5 +105,11 @@ public class ProductService {
 	public List<Product> findByCondition(String findByShop_price, String findByPdesc) throws SQLException {
 		List<Product> listProduct = dao.findByCondition( findByShop_price,  findByPdesc);
 		return listProduct;
+	}
+
+	public ProductLimit findLimit(String pageNumber) throws SQLException {
+		ProductLimit proLimist = dao.findLimit(pageNumber);
+		return proLimist;
+		
 	}
 }

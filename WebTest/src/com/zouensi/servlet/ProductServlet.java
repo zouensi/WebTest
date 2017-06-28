@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.zouensi.domain.Product;
+import com.zouensi.domain.ProductLimit;
 import com.zouensi.service.ProductService;
 
 public class ProductServlet extends HttpServlet {
@@ -46,11 +47,33 @@ public class ProductServlet extends HttpServlet {
 			deleteAll(request,response);
 		}else if("findByCondition".equals(method)) {
 			findByCondition(request,response);
+		}else if("findLimit".equals(method)) {
+			findLimit(request,response);
 		}
 		else {
 			findAll(request,response);
 		}
 	}
+	/**
+	 * 分页查找
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void findLimit(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String pageNumber = request.getParameter("pageNubmer");//当前页
+		try {
+			ProductLimit proLimit = service.findLimit(pageNumber);
+			request.setAttribute("proLimit", proLimit);
+			request.getRequestDispatcher("/jsp/showLimit.jsp").forward(request, response);
+		} catch (SQLException e) {
+			errorRequest(request, response, "亲,查询新失败");
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * 按照条件查询
 	 * @param request

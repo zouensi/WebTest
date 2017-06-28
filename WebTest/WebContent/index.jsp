@@ -9,7 +9,8 @@
 <body>
 	<div style="width:100%;text-align: center">
 		<a href="${pageContext.request.contextPath}/ProductServlet?myMethod=findAll">查看信息</a>
-		<a href="${pageContext.request.contextPath}/jsp/add.jsp">添加信息</a>
+		&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/jsp/add.jsp">添加信息</a>
+		&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/ProductServlet?myMethod=findLimit&pageNubmer=1">分页查询</a>
 	</div>
 </body>
 </html>
