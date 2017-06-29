@@ -50,6 +50,15 @@
 							<a href="${pageContext.request.contextPath}/ProductServlet?myMethod=findLimit&pageNubmer=1">首页</a>
 						&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/ProductServlet?myMethod=findLimit&pageNubmer=${requestScope.proLimit.pageNumber-1}">上一页</a>
 						</c:if>
+							<c:forEach begin="${requestScope.proLimit.pageNumber==1?1:requestScope.proLimit.pageNumber-1}" 
+							end="${requestScope.proLimit.pageNumber==requestScope.proLimit.totalPage?requestScope.proLimit.totalPage:requestScope.proLimit.pageNumber+1}" step="1" var="i">
+							<c:if test="${requestScope.proLimit.pageNumber==i}">
+							&nbsp;${i}
+							</c:if>
+							<c:if test="${requestScope.proLimit.pageNumber!=i}">
+							&nbsp;<a href="${pageContext.request.contextPath}/ProductServlet?myMethod=findLimit&pageNubmer=${i}">${i}</a>
+							</c:if>
+						</c:forEach>
 						<c:if test="${requestScope.proLimit.pageNumber!=requestScope.proLimit.totalPage}">
 						&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/ProductServlet?myMethod=findLimit&pageNubmer=${requestScope.proLimit.pageNumber+1}">下一页</a>
 						&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/ProductServlet?myMethod=findLimit&pageNubmer=${requestScope.proLimit.totalPage}">尾页</a>
